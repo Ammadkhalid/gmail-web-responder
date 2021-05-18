@@ -85,6 +85,10 @@ let store = new Vuex.Store({
                 updated_at: localStorage.getItem('user.updated_at') || null,
                 created_at: localStorage.getItem('user.created_at') || null,
             };
+        },
+        hasAnyCurrentAccount: (state, getters) => {
+            let current = getters.currentAccount;
+            return !(current.id === null && current.user === null && current.password === null);
         }
     }
 });

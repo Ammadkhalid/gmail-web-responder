@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
 
     store.dispatch('listAccounts').then(() => {
 
-        if(store.state.accounts.length >= 1 && store.getters.hasNoAccount) {
+        if(store.state.accounts.length > 0 && !store.getters.hasAnyCurrentAccount) {
             store.dispatch('changeCurrentAccount', store.state.accounts[0]);
         }
 
