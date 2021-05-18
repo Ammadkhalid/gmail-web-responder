@@ -17,7 +17,7 @@
             <b-dropdown-divider></b-dropdown-divider>
 
             <b-dropdown-item :to="{ name: 'gmail.account.add' }">Add New Account</b-dropdown-item>
-            <b-dropdown-item @click="deleteUserAccount(currentAccount)">Delete Current Account</b-dropdown-item>
+            <b-dropdown-item @click="deleteUserAccount(currentAccount)" v-if="!hasNoAccount">Delete Current Account</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -42,7 +42,8 @@ export default {
     ...mapGetters([
        'getAccounts',
        'currentAccount',
-    ]),
+       'hasNoAccount'
+    ])
   },
   mounted() {
     this.user = this.currentAccount.user;
@@ -59,17 +60,21 @@ export default {
     },
 
     deleteUserAccount: function (account) {
-      Gmail.deleteAccount(account.id);
-      this.deleteAccount(account);
-      let length = this.getAccounts.length - 1;
-      if(length > 0) {
-        this.changeCurrentAccount(this.getAccounts[length]);
-      } else {
-        this.user = '';
-        this.$router.push({
-          name: 'gmail.account.add'
-        })
-      }
+      Gmail.deleteAccount(account.id).then((res) => {
+
+        console.log(res);
+        this.deleteAccount(account);
+        let length = this.getAccounts.length - 1;
+        if(length > 0) {
+          this.changeCurrentAccount(this.getAccounts[length]);
+        } else {
+          this.user = '';
+          this.$router.push({
+            name: 'gmail.account.add'
+          })
+        }
+
+      });
     },
 
   }
