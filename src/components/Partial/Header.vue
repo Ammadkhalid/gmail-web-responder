@@ -62,6 +62,8 @@ export default {
     deleteUserAccount: function (account) {
       Gmail.deleteAccount(account.id).then((res) => {
 
+        console.log(res);
+
         this.deleteAccount(account);
         let length = this.getAccounts.length - 1;
         if(length > 0) {
